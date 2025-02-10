@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using EmployeeApi.Services;
-using Microsoft.Data.SqlClient; // Or System.Data.SqlClient if you prefer
+
+using Microsoft.Data.SqlClient;
+using MyPortfolio.Services; // Or System.Data.SqlClient if you prefer
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add a database service using the connection string from appsettings.json
-builder.Services.AddSingleton<EmployeeService>(); // Register your custom service
+builder.Services.AddSingleton<UsersService>(); // Register your custom service
 
 // Add CORS policy to allow the frontend (Angular) to connect
 builder.Services.AddCors(options =>

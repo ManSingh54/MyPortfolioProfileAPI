@@ -15,24 +15,24 @@ namespace MyPortfolio.Services
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-        public List<ContactMeInfo> GetEmployees()
+        public List<ContactMeInfo> GetUsers()
         {
             List<ContactMeInfo> employees = new List<ContactMeInfo>();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM Employees", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM ContactMe", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     ContactMeInfo employee = new ContactMeInfo
                     {
-                        UserId = reader.GetInt32(0),
+                        //UserId = reader.GetInt32(0),
                         Name = reader.GetString(1),
                         Email = reader.GetString(2),
-                        ContactNumber = reader.GetString(3),
+                       // ContactNumber = reader.GetString(3).ToString(),
                         Message = reader.GetString(4)
                     };
                     employees.Add(employee);
