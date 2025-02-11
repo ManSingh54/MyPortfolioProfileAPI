@@ -41,5 +41,43 @@ namespace MyPortfolio.Services
 
             return employees;
         }
+
+        public bool saveUserDetails(ContactMeInfo contactInfo)
+        {
+            // Use the connection string for your database
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                // Open the connection to the database
+                connection.Open();
+
+                // SQL command to insert the contact details into the ContactMe table
+                string query = "INSERT INTO ContactMe (Name, Email, PhoneNumber, Message) VALUES (@Name, @Email, @PhoneNumber, @Message)";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameters to prevent SQL injection
+                    command.Parameters.AddWithValue("@Name", contactInfo.Name);
+                    command.Parameters.AddWithValue("@Email", contactInfo.Email);
+                    command.Parameters.AddWithValue("@PhoneNumber", contactInfo.ContactNumber);  // Ensure `Phone` is part of `ContactMeInfo` model
+                    command.Parameters.AddWithValue("@Message", contactInfo.Message);
+
+                    try
+                    {
+                        // Execute the command to insert the data
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // If rows were affected, return true indicating the operation was successful
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the exception (you can use a logging framework like Serilog, NLog, or log directly)
+                        Console.WriteLine("Error saving data: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
     }
 }

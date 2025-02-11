@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 
 // Add Swagger/OpenAPI support
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 // Add a database service using the connection string from appsettings.json
 builder.Services.AddSingleton<UsersService>(); // Register your custom service
@@ -34,8 +34,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -43,8 +43,11 @@ app.UseHttpsRedirection();
 // Enable CORS (allow frontend to make requests to the backend)
 app.UseCors("AllowAll");
 
-app.UseAuthorization();
+
 
 app.MapControllers();
 
+app.MapGet("/", () => Results.Content("<h3>API is Running</h3>", "text/html"));
+app.UseRouting();
+app.UseAuthorization();
 app.Run();

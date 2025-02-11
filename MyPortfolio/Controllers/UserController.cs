@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyPortfolio.Models;
 using MyPortfolio.Services;
 
 namespace MyPortfolio.Controllers
@@ -16,9 +17,23 @@ namespace MyPortfolio.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
-            //eturn Ok("API is Running");
             var users = _usersService.GetUsers();
             return Ok(users);
         }
-    }
+
+        public IActionResult saveUserDetails(ContactMeInfo contactInfo)
+        {
+            bool isSaved = _usersService.saveUserDetails(contactInfo);
+
+            if (isSaved)
+            {
+                return Ok(new { message = "Contact saved successfully!" });
+            }
+            else
+            {
+                return StatusCode(500, new { message = "Error saving contact." });
+            }
+        }
+
+        }
 }
